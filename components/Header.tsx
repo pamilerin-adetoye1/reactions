@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import SearchBar from "./SearchBar";
 import Button from "./UI/Button";
 import Avatar from "./UI/Avatar";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import UploadModal from "./UploadModal";
 import useAuth from "@/hooks/useAuth";
 import { useUserProfile } from "@/hooks/useUserProfile";
@@ -144,7 +144,9 @@ export default function Header() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="w-full max-w-2xl"
           >
-            <SearchBar />
+            <Suspense fallback={<div className="h-10 bg-gray-200 rounded animate-pulse"></div>}>
+              <SearchBar />
+            </Suspense>
           </motion.div>
         </div>
       </motion.header>
