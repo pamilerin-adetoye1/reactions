@@ -68,7 +68,7 @@ export default function Header() {
                       variant="primary"
                       size="md"
                       onClick={() => setOpen(true)}
-                      className="px-2 py-1 text-xs whitespace-nowrap flex items-center gap-0.5 mr-1"
+                      className="px-2 py-2 text-xs whitespace-nowrap flex items-center gap-0.5 mr-1"
                     >
                       <img src="/upload-icon.svg" alt="" className="w-3 h-3" />
                       <span className="text-[10px]">Upload</span>
@@ -117,7 +117,7 @@ export default function Header() {
                     variant="primary"
                     size="md"
                     onClick={() => setOpen(true)}
-                    className="px-2 py-1 text-xs whitespace-nowrap flex items-center gap-0.5"
+                    className="px-2 py-2 text-xs whitespace-nowrap flex items-center gap-0.5"
                   >
                     <img src="/upload-icon.svg" alt="" className="w-3 h-3" />
                     <span className="text-[10px]">Upload</span>
