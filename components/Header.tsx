@@ -68,10 +68,10 @@ export default function Header() {
                       variant="primary"
                       size="md"
                       onClick={() => setOpen(true)}
-                      className="px-2 py-2 text-xs whitespace-nowrap flex items-center gap-0.5 mr-1"
+                      className="py-2 text-sm whitespace-nowrap flex items-center gap-0.5 mr-1"
                     >
                       <img src="/upload-icon.svg" alt="" className="w-3 h-3" />
-                      <span className="text-[10px]">Upload</span>
+                      <span className="text-sm">Upload</span>
                     </Button>
                   </div>
                   <button
@@ -117,10 +117,10 @@ export default function Header() {
                     variant="primary"
                     size="md"
                     onClick={() => setOpen(true)}
-                    className="px-2 py-2 text-xs whitespace-nowrap flex items-center gap-0.5"
+                    className="py-2 text-sm whitespace-nowrap flex items-center gap-0.5"
                   >
                     <img src="/upload-icon.svg" alt="" className="w-3 h-3" />
-                    <span className="text-[10px]">Upload</span>
+                    <span className="text-sm">Upload</span>
                   </Button>
                 </div>
                 <Button
