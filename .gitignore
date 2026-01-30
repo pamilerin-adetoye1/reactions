@@ -48,5 +48,14 @@ yarn-error.log*
 
 # OS
 .DS_Store
+
+# Build artifacts
+tsconfig.tsbuildinfo
+
+# Logs
+*.log
+
+# Trae AI tool
+.trae/
 Thumbs.db
 node_modules
