@@ -23,7 +23,7 @@ export default function Header() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="flex flex-col gap-4 py-4 px-4"
+        className="flex flex-col gap-4 py-4 px-2 sm:px-4"
       >
         <div className="flex items-center justify-between w-full">
           {/* Left group: logo */}
@@ -35,13 +35,13 @@ export default function Header() {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 src="/REACTiONS.svg"
                 alt="MEMEiD"
-                className="h-6 sm:h-7 md:h-8 shrink-0"
+                className="h-5 sm:h-6 md:h-7 lg:h-8 shrink-0"
               />
             </Link>
           </div>
 
           {/* Right group: upload + profile */}
-          <div className="right-group flex items-center gap-2 sm:gap-3 shrink-0">
+          <div className="right-group flex items-center gap-1 sm:gap-2 md:gap-3 shrink-0">
             {loading || profileLoading ? (
               <div className="text-sm text-muted">Loading...</div>
             ) : user ? (
@@ -68,10 +68,10 @@ export default function Header() {
                       variant="primary"
                       size="md"
                       onClick={() => setOpen(true)}
-                      className="px-3 py-2 text-sm whitespace-nowrap flex items-center gap-1 mr-1"
+                      className="px-2 py-1 text-xs whitespace-nowrap flex items-center gap-0.5 mr-1"
                     >
                       <img src="/upload-icon.svg" alt="" className="w-3 h-3" />
-                      <span className="text-[11px]">Upload</span>
+                      <span className="text-[10px]">Upload</span>
                     </Button>
                   </div>
                   <button
@@ -112,15 +112,15 @@ export default function Header() {
                   </Button>
                 </div>
                 {/* small-screen upload shown when not signed in */}
-                <div className="sm:hidden mr-2">
+                <div className="sm:hidden mr-1">
                   <Button
                     variant="primary"
                     size="md"
                     onClick={() => setOpen(true)}
-                    className="px-3 py-2 text-sm whitespace-nowrap flex items-center gap-1"
+                    className="px-2 py-1 text-xs whitespace-nowrap flex items-center gap-0.5"
                   >
                     <img src="/upload-icon.svg" alt="" className="w-3 h-3" />
-                    <span className="text-sm">Upload</span>
+                    <span className="text-[10px]">Upload</span>
                   </Button>
                 </div>
                 <Button
