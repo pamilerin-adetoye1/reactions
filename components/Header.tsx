@@ -144,7 +144,11 @@ export default function Header() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="w-full max-w-2xl"
           >
-            <Suspense fallback={<div className="h-10 bg-gray-200 rounded animate-pulse"></div>}>
+            <Suspense
+              fallback={
+                <div className="h-10 bg-gray-200 rounded animate-pulse"></div>
+              }
+            >
               <SearchBar />
             </Suspense>
           </motion.div>
