@@ -68,7 +68,7 @@ export default function Header() {
                       variant="primary"
                       size="md"
                       onClick={() => setOpen(true)}
-                      className="py-2 text-sm whitespace-nowrap flex items-center gap-0.5 mr-1"
+                      className="px-3 py-2 text-sm whitespace-nowrap flex items-center gap-0.5 mr-1"
                     >
                       <img src="/upload-icon.svg" alt="" className="w-3 h-3" />
                       <span className="text-sm">Upload</span>
@@ -117,7 +117,7 @@ export default function Header() {
                     variant="primary"
                     size="md"
                     onClick={() => setOpen(true)}
-                    className="py-2 text-sm whitespace-nowrap flex items-center gap-0.5"
+                    className="px-3 py-2 text-sm whitespace-nowrap flex items-center gap-0.5"
                   >
                     <img src="/upload-icon.svg" alt="" className="w-3 h-3" />
                     <span className="text-sm">Upload</span>
@@ -128,6 +128,7 @@ export default function Header() {
                   size="md"
                   style={{ background: "#0FFF75" }}
                   onClick={() => router.push("/auth")}
+                  className="px-3"
                 >
                   Sign in
                 </Button>
