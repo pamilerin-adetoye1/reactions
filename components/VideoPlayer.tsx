@@ -19,8 +19,9 @@ export default function VideoPlayer({
   creator,
   memeId,
 }: VideoPlayerProps) {
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const viewsRecordedRef = useRef(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   // Record view when video starts playing
   const recordView = async () => {
@@ -47,6 +48,29 @@ export default function VideoPlayer({
       // Prevent body scroll when modal is open
       document.body.style.overflow = "hidden";
 
+      // Try to play the video
+      const playVideo = async () => {
+        if (videoRef.current) {
+          try {
+            await videoRef.current.play();
+            setIsPlaying(true);
+          } catch (error) {
+            console.error("Error playing video:", error);
+            // Video might require user interaction on mobile
+          }
+        }
+      };
+      playVideo();
+
+      // Handle video events
+      const handlePlay = () => setIsPlaying(true);
+      const handlePause = () => setIsPlaying(false);
+
+      if (videoRef.current) {
+        videoRef.current.addEventListener('play', handlePlay);
+        videoRef.current.addEventListener('pause', handlePause);
+      }
+
       // Handle ESC key press
       const handleEsc = (e: KeyboardEvent) => {
         if (e.key === "Escape") {
@@ -56,6 +80,11 @@ export default function VideoPlayer({
 
       window.addEventListener("keydown", handleEsc);
       return () => {
+        if (videoRef.current) {
+          videoRef.current.removeEventListener('play', handlePlay);
+          videoRef.current.removeEventListener('pause', handlePause);
+          videoRef.current.pause(); // Pause when closing
+        }
         window.removeEventListener("keydown", handleEsc);
         document.body.style.overflow = "auto";
       };
@@ -107,11 +136,12 @@ export default function VideoPlayer({
         {/* Video container */}
         <div className="relative w-full aspect-video bg-black rounded-lg overflow-hidden shadow-2xl">
           <video
+            ref={videoRef}
             src={videoUrl}
-            autoPlay
             controls
             className="w-full h-full object-contain"
             controlsList="nodownload"
+            playsInline
           >
             Your browser does not support the video tag.
           </video>
