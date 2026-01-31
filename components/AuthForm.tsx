@@ -115,27 +115,20 @@ export default function AuthForm() {
       {confirmationEmailSent ? (
         <div className="text-center space-y-4">
           <div className="p-4 rounded bg-green-500/20 text-green-300">
-            <p className="font-medium mb-2">Confirmation Email Sent!</p>
+            <p className="font-medium mb-2">Account Created Successfully!</p>
             <p className="text-sm">
-              Please check your email at <strong>{email}</strong> and click the
-              confirmation link to activate your account.
+              Welcome to Memesite! Your account has been created and you're now signed in.
             </p>
             <p className="text-xs mt-2 text-green-400">
-              You can then sign in with your email and password.
+              You can start exploring and uploading memes right away.
             </p>
           </div>
           <Button
-            variant="ghost"
-            onClick={() => {
-              setConfirmationEmailSent(false);
-              setIsSignUp(false);
-              setEmail("");
-              setPassword("");
-              setName("");
-            }}
+            variant="primary"
+            onClick={() => router.push("/")}
             className="w-full"
           >
-            Back to Sign In
+            Continue to Homepage
           </Button>
         </div>
       ) : (
