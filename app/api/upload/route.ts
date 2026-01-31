@@ -41,6 +41,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (file.size === 0) {
+      return NextResponse.json(
+        { error: "File is empty (0 bytes). Please try a different file." },
+        { status: 400 }
+      );
+    }
+
     // Convert File to Buffer for upload
     const buffer = Buffer.from(await file.arrayBuffer());
     console.log("File converted to buffer, size:", buffer.length);
@@ -66,7 +73,7 @@ export async function POST(request: NextRequest) {
       // Provide helpful error messages
       let errorMessage = uploadError.message;
       if (errorMessage.includes("ECONNRESET") || errorMessage.includes("fetch failed")) {
-        errorMessage = "Connection to storage failed. Please try again or contact support.";
+        errorMessage = `Connection to storage failed (Network error: ${uploadError.message}). Please check your internet connection.`;
       } else if (errorMessage.includes("not found")) {
         errorMessage = 'The "memes" storage bucket does not exist. Please contact an administrator.';
       } else if (errorMessage.includes("unauthorized") || errorMessage.includes("permission")) {

@@ -88,7 +88,8 @@ export default function Header() {
                   </button>
                   <button
                     onClick={() => router.push("/profile")}
-                    className="text-xs sm:text-sm font-bold hover:opacity-80 transition hidden sm:block cursor-pointer"
+                    className="text-xs sm:text-sm font-bold hover:opacity-80 transition hidden sm:block cursor-pointer max-w-16 lg:max-w-28 truncate"
+                    title={profile?.name || "User"}
                   >
                     {profile?.name || "User"}
                   </button>

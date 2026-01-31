@@ -117,7 +117,8 @@ export default function AuthForm() {
           <div className="p-4 rounded bg-green-500/20 text-green-300">
             <p className="font-medium mb-2">Account Created Successfully!</p>
             <p className="text-sm">
-              Welcome to Memesite! Your account has been created and you're now signed in.
+              Welcome to Memesite! Your account has been created and you're now
+              signed in.
             </p>
             <p className="text-xs mt-2 text-green-400">
               You can start exploring and uploading memes right away.
@@ -307,7 +308,8 @@ export default function AuthForm() {
             </button>
           </div>
 
-          {(!isSignUp || (error && error.toLowerCase().includes("registered"))) && (
+          {(!isSignUp ||
+            (error && error.toLowerCase().includes("registered"))) && (
             <div className="mt-2 text-center">
               <a
                 href="/forgot-password"

@@ -121,8 +121,11 @@ export default function VideoPlayer({
         <div className="mt-6 text-center max-w-2xl">
           <h2 className="text-2xl font-bold text-white mb-2">{title}</h2>
           {creator && (
-            <p className="text-gray-300">
-              By <span className="font-bold">{creator}</span>
+            <p className="text-gray-300 flex items-center justify-center gap-1">
+              By{" "}
+              <span className="font-bold max-w-28 truncate" title={creator}>
+                {creator}
+              </span>
             </p>
           )}
         </div>

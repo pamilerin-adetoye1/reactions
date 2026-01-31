@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import countries from "../data/countries";
 import languages from "../data/languages";
 import { Dropdown } from "./UI/Dropdown";
-import { searchMemes } from "@/lib/memeApi";
+import { searchMemesAction } from "@/app/actions/memeActions";
 import { Meme } from "@/lib/types";
 
 interface SearchBarProps {
@@ -80,7 +80,7 @@ export default function SearchBar({
 
     suggestionsTimeoutRef.current = setTimeout(async () => {
       try {
-        const results = await searchMemes(q, country, language);
+        const results = await searchMemesAction(q, country, language);
         setSuggestions(results.slice(0, 5)); // Show top 5 results
       } catch (error) {
         console.error("Error fetching suggestions:", error);

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import useAuth from "@/hooks/useAuth";
 import { Meme } from "@/lib/types";
+import { getMemesByIdsAction } from "@/app/actions/memeActions";
 
 export const useBookmarks = () => {
   const { user } = useAuth();
@@ -33,13 +34,7 @@ export const useBookmarks = () => {
 
       // Fetch full meme data for bookmarked memes
       if (ids.size > 0) {
-        const { data: memes, error: memesError } = await supabase
-          .from("memes")
-          .select("*")
-          .in("id", Array.from(ids))
-          .order("created_at", { ascending: false });
-
-        if (memesError) throw memesError;
+        const memes = await getMemesByIdsAction(Array.from(ids));
         setBookmarkedMemes(memes || []);
       } else {
         setBookmarkedMemes([]);

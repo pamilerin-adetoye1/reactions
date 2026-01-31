@@ -139,6 +139,12 @@ export default async function MemePage({
             />
           </div>
           <h1 className="text-2xl font-semibold mt-4">{meme.title}</h1>
+          <div className="text-sm text-gray-400 mt-1">
+            By{" "}
+            <span className="font-bold text-cyan-400">
+              {meme.creator_name || "User"}
+            </span>
+          </div>
           <div className="text-muted mt-2">
             {meme.tags &&
               Array.isArray(meme.tags) &&

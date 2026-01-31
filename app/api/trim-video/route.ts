@@ -60,6 +60,12 @@ export async function POST(request: Request) {
       const trimCmd = `ffmpeg -i "${inputPath}" -ss ${startNum} -to ${endNum} -c:v libx264 -c:a aac -y "${outputPath}"`;
       await execAsync(trimCmd);
 
+      // Verify output file
+      const stats = await fs.stat(outputPath);
+      if (stats.size === 0) {
+        throw new Error("FFmpeg produced an empty file");
+      }
+
       // Read trimmed video
       const trimmedBuffer = await fs.readFile(outputPath);
 

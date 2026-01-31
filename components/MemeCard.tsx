@@ -145,7 +145,7 @@ export default function MemeCard({ meme }: { meme: any }) {
               By{" "}
               <Link
                 href={`/profile?id=${meme.creator_id}`}
-                className="text-cyan-400 font-bold hover:text-cyan-300 transition cursor-pointer"
+                className="text-cyan-400 font-bold hover:text-cyan-300 transition cursor-pointer max-w-18 sm:max-w-28 truncate inline-block align-bottom"
               >
                 {meme.creator_name || "User"}
               </Link>

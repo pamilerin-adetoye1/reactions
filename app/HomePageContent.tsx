@@ -4,7 +4,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import MemeGrid from "../components/MemeGrid";
-import { getMemes, searchMemes } from "@/lib/memeApi";
+import { getMemesAction, searchMemesAction } from "@/app/actions/memeActions";
 import { Meme } from "@/lib/types";
 
 export default function HomePageContent() {
@@ -26,10 +26,10 @@ export default function HomePageContent() {
 
         if (searchQuery) {
           // Search with query
-          data = await searchMemes(searchQuery, country, language);
+          data = await searchMemesAction(searchQuery, country, language);
         } else if (country !== "All" || language !== "All") {
           // Filter by country/language without search query
-          data = await getMemes(100); // Get more to filter
+          data = await getMemesAction(100); // Get more to filter
           if (country !== "All") {
             data = data.filter((m) => m.country === country);
           }
@@ -38,7 +38,7 @@ export default function HomePageContent() {
           }
         } else {
           // Get all trending memes
-          data = await getMemes(20);
+          data = await getMemesAction(20);
         }
         setMemes(data);
       } catch (err: any) {
