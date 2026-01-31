@@ -48,8 +48,10 @@ export function Dropdown({
 
     // Determine if we have enough space below, if not use above
     // Also consider scrollY to prevent positioning off-screen in long pages
+    // Add hysteresis to prevent jumping: only switch if space difference is significant
+    const minSpaceThreshold = 50; // Minimum extra space needed to prefer below
     const shouldShowAbove =
-      spaceBelow < popupHeight && spaceAbove > popupHeight;
+      spaceBelow < popupHeight - minSpaceThreshold && spaceAbove > popupHeight;
 
     // Calculate top position
     // If showing above: top edge of trigger + scroll - popup height - gap
@@ -128,9 +130,20 @@ export function Dropdown({
     if (open) {
       computePos();
       let rafId: number | null = null;
+      let lastScrollY = window.scrollY;
+
       const onScroll = () => {
         if (rafId) cancelAnimationFrame(rafId);
-        rafId = requestAnimationFrame(() => computePos());
+        rafId = requestAnimationFrame(() => {
+          const currentScrollY = window.scrollY;
+          const scrollDelta = Math.abs(currentScrollY - lastScrollY);
+
+          // Only reposition if scrolled significantly or if dropdown might be off-screen
+          if (scrollDelta > 50 || !coords) {
+            computePos();
+            lastScrollY = currentScrollY;
+          }
+        });
       };
       const onResize = () => computePos();
       window.addEventListener("scroll", onScroll, true);

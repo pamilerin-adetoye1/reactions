@@ -67,7 +67,7 @@ export default function DownloadMenu({
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(
-          errorData.error || `Download failed with status ${response.status}`
+          errorData.error || `Download failed with status ${response.status}`,
         );
       }
 
@@ -131,7 +131,34 @@ export default function DownloadMenu({
         align="left"
       >
         <div className="flex flex-col gap-3 p-2">
-          {/* Audio Selection - Disabled for now (FFmpeg not available on Vercel serverless) */}
+          {/* Audio Selection */}
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-medium text-white/80">Audio:</label>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setAudio("with")}
+                className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition ${
+                  audio === "with"
+                    ? "bg-blue-600 text-white"
+                    : "bg-white/10 text-white/70 hover:bg-white/20"
+                }`}
+              >
+                <img src="/audio.svg" alt="with audio" className="w-4 h-4" />
+                <span>With Audio</span>
+              </button>
+              <button
+                onClick={() => setAudio("no")}
+                className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition ${
+                  audio === "no"
+                    ? "bg-blue-600 text-white"
+                    : "bg-white/10 text-white/70 hover:bg-white/20"
+                }`}
+              >
+                <img src="/no-audio.png" alt="no audio" className="w-4 h-4" />
+                <span>No Audio</span>
+              </button>
+            </div>
+          </div>
 
           {/* Download Button */}
           <button
