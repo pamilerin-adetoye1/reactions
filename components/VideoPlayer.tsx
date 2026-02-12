@@ -29,46 +29,73 @@ export default function VideoPlayer({
 
     try {
       viewsRecordedRef.current = true;
-      await fetch(`/api/memes/${memeId}`, {
+      const response = await fetch(`/api/memes/${memeId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ action: "increment_views" }),
       });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to increment views: ${response.statusText}`);
+      }
     } catch (error) {
       console.error("Error recording view:", error);
-      viewsRecordedRef.current = false; // Reset on error to retry
+      // Reset after a delay to allow retry if playback continues/restarts
+      setTimeout(() => {
+        viewsRecordedRef.current = false;
+      }, 5000);
     }
   };
 
   useEffect(() => {
     if (isOpen) {
-      // Record view when modal opens
-      recordView();
-
       // Prevent body scroll when modal is open
       document.body.style.overflow = "hidden";
 
-      // Try to play the video
-      const playVideo = async () => {
-        if (videoRef.current) {
-          try {
-            await videoRef.current.play();
-            setIsPlaying(true);
-          } catch (error) {
-            console.error("Error playing video:", error);
-            // Video might require user interaction on mobile
-          }
-        }
-      };
-      playVideo();
-
       // Handle video events
-      const handlePlay = () => setIsPlaying(true);
+      const handlePlay = () => {
+        setIsPlaying(true);
+        recordView(); // Record view when playback actually starts
+      };
       const handlePause = () => setIsPlaying(false);
 
       if (videoRef.current) {
-        videoRef.current.addEventListener('play', handlePlay);
-        videoRef.current.addEventListener('pause', handlePause);
+        videoRef.current.addEventListener("play", handlePlay);
+        videoRef.current.addEventListener("pause", handlePause);
+
+        // Ensure video is loaded and try to play
+        videoRef.current.load();
+
+        // Some low-end devices need a bit of time after .load()
+        const playTimer = setTimeout(async () => {
+          if (videoRef.current) {
+            try {
+              // Try playing muted first if unmuted fails (common mobile restriction)
+              await videoRef.current.play();
+              setIsPlaying(true);
+            } catch (error) {
+              console.log("Play failed, retrying muted...", error);
+              if (videoRef.current) {
+                videoRef.current.muted = true;
+                try {
+                  await videoRef.current.play();
+                  setIsPlaying(true);
+                } catch (mutedError) {
+                  console.error("Muted play also failed:", mutedError);
+                }
+              }
+            }
+          }
+        }, 150);
+
+        return () => {
+          clearTimeout(playTimer);
+          if (videoRef.current) {
+            videoRef.current.removeEventListener("play", handlePlay);
+            videoRef.current.removeEventListener("pause", handlePause);
+            videoRef.current.pause();
+          }
+        };
       }
 
       // Handle ESC key press
@@ -80,22 +107,18 @@ export default function VideoPlayer({
 
       window.addEventListener("keydown", handleEsc);
       return () => {
-        if (videoRef.current) {
-          videoRef.current.removeEventListener('play', handlePlay);
-          videoRef.current.removeEventListener('pause', handlePause);
-          videoRef.current.pause(); // Pause when closing
-        }
         window.removeEventListener("keydown", handleEsc);
         document.body.style.overflow = "auto";
       };
     } else {
       document.body.style.overflow = "auto";
+      viewsRecordedRef.current = false; // Reset when modal closes
     }
 
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, memeId]);
 
   if (!isOpen) return null;
 
@@ -142,6 +165,9 @@ export default function VideoPlayer({
             className="w-full h-full object-contain"
             controlsList="nodownload"
             playsInline
+            preload="auto"
+            webkit-playsinline="true"
+            x5-playsinline="true"
           >
             Your browser does not support the video tag.
           </video>

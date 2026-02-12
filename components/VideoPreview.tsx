@@ -38,8 +38,10 @@ export default function VideoPreview({
 
     const handleLoadedMetadata = () => {
       setIsLoaded(true);
-      // Seek to 2 seconds for preview
-      video.currentTime = 2;
+      // Seek to 2 seconds for preview if possible
+      if (video.duration > 2) {
+        video.currentTime = 2;
+      }
     };
 
     const handleCanPlay = () => {
@@ -49,16 +51,23 @@ export default function VideoPreview({
         video.play().catch((err) => {
           // Auto-play may be blocked, that's okay
           console.log("Auto-play blocked:", err.message);
+          // On mobile, if autoplay fails, we just show the poster/first frame
         });
       }
     };
 
+    const handleError = (e: any) => {
+      console.error("Video error in preview:", videoUrl, e);
+    };
+
     video.addEventListener("loadedmetadata", handleLoadedMetadata);
     video.addEventListener("canplay", handleCanPlay);
+    video.addEventListener("error", handleError);
 
     return () => {
       video.removeEventListener("loadedmetadata", handleLoadedMetadata);
       video.removeEventListener("canplay", handleCanPlay);
+      video.removeEventListener("error", handleError);
     };
   }, [videoUrl, isTouchDevice, isHovering]);
 
@@ -97,6 +106,9 @@ export default function VideoPreview({
         muted
         loop
         playsInline
+        preload="metadata"
+        webkit-playsinline="true"
+        x5-playsinline="true"
         className="w-full h-full object-cover group-hover:brightness-75 transition"
       />
 
